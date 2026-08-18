@@ -1,14 +1,15 @@
 import 'dart:async';
 
-abstract interface class StandardSchemaV1<Input, Output> {
-  /// Corresponds to the TypeScript `~standard` property.
-  ///
-  /// Dart identifiers cannot contain `~`, so this is exposed as `standard`.
-  StandardSchemaV1Props<Input, Output> get standard;
+/// The contract by which authors must implement validation types
+abstract interface class StandardSchema<Input, Output> {
+  StandardSchemaProps<Input, Output> get $standard;
 }
 
-final class StandardSchemaV1Props<Input, Output> {
-  const StandardSchemaV1Props({
+typedef Unknown = Object?;
+
+/// The validation props that must be used
+final class StandardSchemaProps<Input, Output> {
+  const StandardSchemaProps({
     required this.vendor,
     required this.validate,
     this.types,
@@ -17,10 +18,12 @@ final class StandardSchemaV1Props<Input, Output> {
   /// Standard Schema V1.
   int get version => 1;
 
+  /// The name of the library that's used
   final String vendor;
 
+  /// The function used to validate the input
   final FutureOr<StandardSchemaResult<Output>> Function(
-    Object? value, [
+    Unknown value, [
     StandardSchemaOptions? options,
   ])
   validate;
@@ -54,7 +57,7 @@ final class StandardSchemaOptions {
   const StandardSchemaOptions({this.libraryOptions});
 
   /// Explicit support for vendor-specific parameters.
-  final Map<String, Object?>? libraryOptions;
+  final Map<String, Unknown>? libraryOptions;
 }
 
 /// A validation issue.
@@ -68,40 +71,23 @@ final class StandardSchemaIssue {
   final List<StandardSchemaPathElement>? path;
 }
 
-/// A path can contain either a property key directly or a path segment.
-///
-/// TypeScript's:
-///
-/// ```ts
-/// PropertyKey | PathSegment
-/// ```
-///
-/// doesn't have a direct Dart equivalent, so a sealed type is useful.
 sealed class StandardSchemaPathElement {
   const StandardSchemaPathElement();
 }
 
-/// A direct property key.
-///
-/// JavaScript's `PropertyKey` is `string | number | symbol`.
-/// Dart generally uses String or int for object/list paths.
 final class StandardSchemaPropertyKey extends StandardSchemaPathElement {
   const StandardSchemaPropertyKey(this.key);
 
-  final Object key;
+  final String key;
 }
 
 /// An explicit Standard Schema path segment.
 final class StandardSchemaPathSegment extends StandardSchemaPathElement {
   const StandardSchemaPathSegment(this.key);
 
-  final Object key;
+  final String key;
 }
 
-/// Type metadata associated with a schema.
-///
-/// In TypeScript this allows `InferInput` and `InferOutput` to retrieve
-/// compile-time types. Dart generics already carry these types directly.
 abstract interface class StandardSchemaTypes<Input, Output> {
   Input get input;
 
