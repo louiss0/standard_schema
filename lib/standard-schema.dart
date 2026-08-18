@@ -53,11 +53,11 @@ final class StandardSchemaFailure<Output> extends StandardSchemaResult<Output> {
 }
 
 /// Validation options.
-final class StandardSchemaOptions {
+final class StandardSchemaOptions<Options extends Record> {
   const StandardSchemaOptions({this.libraryOptions});
 
   /// Explicit support for vendor-specific parameters.
-  final Map<String, Unknown>? libraryOptions;
+  final Options? libraryOptions;
 }
 
 /// A validation issue.
