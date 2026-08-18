@@ -1,4 +1,4 @@
-# Standard Schema for Dart
+# Enhanced Standard Schema for Dart
 
 A type-safe Dart contract for interoperable validation libraries, based on
 [Standard Schema V1](https://standardschema.dev/), designed by the creators of
@@ -23,7 +23,7 @@ without depending on a particular validator.
 ## Usage
 
 ```dart
-import 'package:standard_schema/standard_schema.dart';
+import 'package:enhanced_standard_schema/enhanced_standard_schema.dart';
 
 final class IntegerSchema implements StandardSchema<int> {
   @override

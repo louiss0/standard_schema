@@ -1,3 +1,6 @@
+/// Type-safe contracts for interoperable Dart validation libraries.
+library;
+
 import 'dart:async';
 
 /// A validator-independent contract for a schema with an [Output] type.

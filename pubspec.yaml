@@ -1,6 +1,13 @@
-name: standard_schema
-description: A type-safe Dart contract for interoperable validation libraries, based on Standard Schema V1.
+name: enhanced_standard_schema
+description: An enhanced, type-safe Dart contract for interoperable validation libraries, based on Standard Schema V1.
 version: 1.0.0
+repository: https://github.com/louiss0/standard_schema
+issue_tracker: https://github.com/louiss0/standard_schema/issues
+
+topics:
+  - validation
+  - schema
+  - standard-schema
 
 environment:
   sdk: ^3.0.0

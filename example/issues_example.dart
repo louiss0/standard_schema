@@ -1,4 +1,4 @@
-import 'package:standard_schema/standard_schema.dart';
+import 'package:enhanced_standard_schema/enhanced_standard_schema.dart';
 
 typedef RangeMetadata = ({int actual, int maximum, int minimum});
 
