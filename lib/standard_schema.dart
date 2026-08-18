@@ -2,16 +2,16 @@ import 'dart:async';
 
 /// A validator-independent contract for a schema with [Input] and [Output]
 /// types.
-abstract interface class StandardSchema<Input, Output> {
+abstract interface class StandardSchema<Output> {
   /// The properties used by consumers to identify and invoke this schema.
-  StandardSchemaProps<Input, Output> get $standard;
+  StandardSchemaProps<Output> get $standard;
 }
 
 /// A value whose type is not known before validation.
 typedef Unknown = Object?;
 
 /// The properties exposed by a [StandardSchema] implementation.
-final class StandardSchemaProps<Input, Output> {
+final class StandardSchemaProps<Output> {
   /// Creates immutable properties for a schema supplied by [vendor].
   const StandardSchemaProps({
     required this.vendor,

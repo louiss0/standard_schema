@@ -1,7 +1,9 @@
 # Standard Schema for Dart
 
 A type-safe Dart contract for interoperable validation libraries, based on
-[Standard Schema V1](https://standardschema.dev/).
+[Standard Schema V1](https://standardschema.dev/). Designed by the creators of Zod, Valibot, Arktype. 
+This spec takes away the type inference aspect of the spec! Dart can't extract key types! 
+
 
 This package defines interfaces and result types only. Validation libraries can
 implement `StandardSchema`, while consumers can accept any conforming schema
@@ -52,6 +54,8 @@ Future<void> main() async {
   }
 }
 ```
+
+The Standandard Schema type 
 
 See [`example/standard_schema_example.dart`](example/standard_schema_example.dart)
 for a complete schema example and
@@ -116,7 +120,3 @@ Future<Output> parse<Input, Output>(
 
 final int value = await parse(IntegerSchema(), 42);
 ```
-
-Unlike TypeScript, Dart cannot extract a generic parameter into a type alias from
-a schema type. The generic `Input` and `Output` parameters are therefore the
-Dart equivalent of Standard Schema's `Types`, `InferInput`, and `InferOutput`.
