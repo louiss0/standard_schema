@@ -57,7 +57,7 @@ Future<void> main() async {
 }
 ```
 
-See [`example/standard_schema_example.dart`](example/standard_schema_example.dart)
+See [`example/enhanced_standard_schema_example.dart`](example/enhanced_standard_schema_example.dart)
 for a complete schema example and
 [`example/issues_example.dart`](example/issues_example.dart) for every issue
 level. The [`example/zod_clone_example.dart`](example/zod_clone_example.dart)
