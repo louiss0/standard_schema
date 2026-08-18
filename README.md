@@ -54,7 +54,11 @@ Future<void> main() async {
 ```
 
 See [`example/standard_schema_example.dart`](example/standard_schema_example.dart)
-for a complete example.
+for a complete schema example and
+[`example/issues_example.dart`](example/issues_example.dart) for every issue
+level. The [`example/zod_clone_example.dart`](example/zod_clone_example.dart)
+example builds a small, fluent validator for strings, integers, doubles, arrays,
+and maps on top of the contract.
 
 ## Implementing the contract
 
@@ -63,8 +67,33 @@ Implement `StandardSchema<Input, Output>` and expose immutable
 returns either `StandardSchemaSuccess<Output>` or
 `StandardSchemaFailure<Output>`, directly or in a `Future`.
 
-Use `HintedStandardSchemaIssue` when consumers need a machine-readable code,
-and `DetailedStandardSchemaIssue` when a validator also exposes typed metadata.
+Choose an issue base class based on the information exposed by the validator:
+
+- Extend `StandardSchemaIssue` for a message and optional validation path.
+- Extend `HintedStandardSchemaIssue` to add an optional machine-readable code.
+- Extend `DetailedStandardSchemaIssue<Metadata>` to add typed metadata, represented
+  by a Dart record.
+
+```dart
+final class TypeMismatchIssue extends HintedStandardSchemaIssue {
+  const TypeMismatchIssue({
+    required super.message,
+    super.path,
+    super.code,
+  });
+}
+
+typedef RangeMetadata = ({int actual, int maximum, int minimum});
+
+final class RangeIssue extends DetailedStandardSchemaIssue<RangeMetadata> {
+  const RangeIssue({
+    required super.message,
+    required super.metadata,
+    super.path,
+    super.code,
+  });
+}
+```
 
 ## Static type inference
 
