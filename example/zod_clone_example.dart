@@ -2,15 +2,14 @@ import 'package:standard_schema/standard_schema.dart';
 
 typedef ZodRule<Value> = ({String code, String? Function(Value) validate});
 
-abstract base class ZodSchema<Output>
-    implements StandardSchema<Object?, Output> {
+abstract base class ZodSchema<Output> implements StandardSchema<Output> {
   ZodSchema(this.rules);
 
   final List<ZodRule<Output>> rules;
 
   @override
-  late final StandardSchemaProps<Object?, Output> $standard =
-      StandardSchemaProps<Object?, Output>(
+  late final StandardSchemaProps<Output> $standard =
+      StandardSchemaProps<Output>(
     vendor: 'zod-clone',
     validate: (value, [options]) => validate(value),
   );

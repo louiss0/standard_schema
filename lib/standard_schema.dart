@@ -1,7 +1,6 @@
 import 'dart:async';
 
-/// A validator-independent contract for a schema with [Input] and [Output]
-/// types.
+/// A validator-independent contract for a schema with an [Output] type.
 abstract interface class StandardSchema<Output> {
   /// The properties used by consumers to identify and invoke this schema.
   StandardSchemaProps<Output> get $standard;

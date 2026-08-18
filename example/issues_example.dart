@@ -23,15 +23,14 @@ final class RangeIssue extends DetailedStandardSchemaIssue<RangeMetadata> {
   });
 }
 
-final class BoundedIntegerSchema implements StandardSchema<Object?, int> {
+final class BoundedIntegerSchema implements StandardSchema<int> {
   BoundedIntegerSchema({required this.minimum, required this.maximum});
 
   final int minimum;
   final int maximum;
 
   @override
-  late final StandardSchemaProps<Object?, int> $standard =
-      StandardSchemaProps<Object?, int>(
+  late final StandardSchemaProps<int> $standard = StandardSchemaProps<int>(
     vendor: 'example',
     validate: (value, [options]) {
       if (value == null) {
@@ -74,7 +73,7 @@ final class BoundedIntegerSchema implements StandardSchema<Object?, int> {
 }
 
 Future<void> displayValidation(
-  StandardSchema<Object?, int> schema,
+  StandardSchema<int> schema,
   Object? value,
 ) async {
   final result = await schema.$standard.validate(value);

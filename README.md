@@ -1,9 +1,12 @@
 # Standard Schema for Dart
 
 A type-safe Dart contract for interoperable validation libraries, based on
-[Standard Schema V1](https://standardschema.dev/). Designed by the creators of Zod, Valibot, Arktype. 
-This spec takes away the type inference aspect of the spec! Dart can't extract key types! 
+[Standard Schema V1](https://standardschema.dev/), designed by the creators of
+Zod, Valibot, and ArkType.
 
+This adaptation omits TypeScript's input-type extraction because Dart cannot
+extract generic parameters from a concrete schema type. Output types remain
+available through Dart's ordinary generic inference.
 
 This package defines interfaces and result types only. Validation libraries can
 implement `StandardSchema`, while consumers can accept any conforming schema
@@ -11,7 +14,7 @@ without depending on a particular validator.
 
 ## Features
 
-- Generic input and output types
+- Generic output types
 - Synchronous or asynchronous validation
 - Structured validation paths and issues
 - Optional vendor-specific validation options
@@ -22,10 +25,9 @@ without depending on a particular validator.
 ```dart
 import 'package:standard_schema/standard_schema.dart';
 
-final class IntegerSchema implements StandardSchema<Object?, int> {
+final class IntegerSchema implements StandardSchema<int> {
   @override
-  StandardSchemaProps<Object?, int> get $standard =>
-      StandardSchemaProps<Object?, int>(
+  StandardSchemaProps<int> get $standard => StandardSchemaProps<int>(
         vendor: 'example',
         validate: (value, [options]) {
           if (value is int) {
@@ -55,8 +57,6 @@ Future<void> main() async {
 }
 ```
 
-The Standandard Schema type 
-
 See [`example/standard_schema_example.dart`](example/standard_schema_example.dart)
 for a complete schema example and
 [`example/issues_example.dart`](example/issues_example.dart) for every issue
@@ -66,7 +66,7 @@ and maps on top of the contract.
 
 ## Implementing the contract
 
-Implement `StandardSchema<Input, Output>` and expose immutable
+Implement `StandardSchema<Output>` and expose immutable
 `StandardSchemaProps`. The `validate` callback receives an unknown value and
 returns either `StandardSchemaSuccess<Output>` or
 `StandardSchemaFailure<Output>`, directly or in a `Future`.
@@ -101,13 +101,14 @@ final class RangeIssue extends DetailedStandardSchemaIssue<RangeMetadata> {
 
 ## Static type inference
 
-Dart carries the schema types directly through `StandardSchema<Input, Output>`.
-Generic consumers can infer both types from the schema argument:
+Dart carries the validated type through `StandardSchema<Output>`. Generic
+consumers infer the output type from the schema argument, while validation input
+remains `Object?` until it has been checked:
 
 ```dart
-Future<Output> parse<Input, Output>(
-  StandardSchema<Input, Output> schema,
-  Input input,
+Future<Output> parse<Output>(
+  StandardSchema<Output> schema,
+  Object? input,
 ) async {
   final result = await schema.$standard.validate(input);
 

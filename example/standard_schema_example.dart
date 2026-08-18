@@ -1,9 +1,8 @@
 import 'package:standard_schema/standard_schema.dart';
 
-final class IntegerSchema implements StandardSchema<Object?, int> {
+final class IntegerSchema implements StandardSchema<int> {
   @override
-  StandardSchemaProps<Object?, int> get $standard =>
-      StandardSchemaProps<Object?, int>(
+  StandardSchemaProps<int> get $standard => StandardSchemaProps<int>(
         vendor: 'example',
         validate: (value, [options]) => value is int
             ? StandardSchemaSuccess(value)

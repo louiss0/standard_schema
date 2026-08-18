@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   group('StandardSchemaProps', () {
     test('exposes Standard Schema version and vendor', () {
-      final properties = StandardSchemaProps<Object?, int>(
+      final properties = StandardSchemaProps<int>(
         vendor: 'example',
         validate: (value, [options]) => const StandardSchemaSuccess(1),
       );
@@ -16,7 +16,7 @@ void main() {
     });
 
     test('supports synchronous validation', () {
-      final properties = StandardSchemaProps<Object?, int>(
+      final properties = StandardSchemaProps<int>(
         vendor: 'example',
         validate: (value, [options]) => const StandardSchemaSuccess(1),
       );
@@ -28,7 +28,7 @@ void main() {
     });
 
     test('supports asynchronous validation', () async {
-      final properties = StandardSchemaProps<Object?, int>(
+      final properties = StandardSchemaProps<int>(
         vendor: 'example',
         validate: (value, [options]) async => const StandardSchemaSuccess(1),
       );
