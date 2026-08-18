@@ -61,7 +61,7 @@ final class StandardSchemaOptions {
 }
 
 /// A validation issue.
-final class StandardSchemaIssue {
+sealed class StandardSchemaIssue {
   const StandardSchemaIssue({required this.message, this.path});
 
   /// Human-readable error message.
@@ -69,6 +69,31 @@ final class StandardSchemaIssue {
 
   /// Location of the error, if applicable.
   final List<StandardSchemaPathElement>? path;
+}
+
+/// An issue that dictates what kind of problem exists
+abstract class HintedStandardSchemaIssue extends StandardSchemaIssue {
+  const HintedStandardSchemaIssue({
+    required super.message,
+    super.path,
+    this.code,
+  });
+
+  /// A unique error code, if applicable.
+  final String? code;
+}
+
+/// An issue that dictates what kind of problem exists with additional metadata.
+abstract class DetailedStandardSchemaIssue<Metadata extends Record>
+    extends HintedStandardSchemaIssue {
+  const DetailedStandardSchemaIssue({
+    required super.message,
+    super.path,
+    super.code,
+    required this.metadata,
+  });
+
+  final Metadata metadata;
 }
 
 sealed class StandardSchemaPathElement {
