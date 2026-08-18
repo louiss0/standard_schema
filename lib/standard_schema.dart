@@ -16,7 +16,6 @@ final class StandardSchemaProps<Input, Output> {
   const StandardSchemaProps({
     required this.vendor,
     required this.validate,
-    this.types,
   });
 
   /// The implemented Standard Schema version.
@@ -30,9 +29,6 @@ final class StandardSchemaProps<Input, Output> {
     Unknown value, [
     StandardSchemaOptions? options,
   ]) validate;
-
-  /// Optional phantom types exposed for static type inference.
-  final StandardSchemaTypes<Input, Output>? types;
 }
 
 /// Result returned from validation.
@@ -130,13 +126,4 @@ final class StandardSchemaPathSegment extends StandardSchemaPathElement {
 
   /// The key represented by this path segment.
   final String key;
-}
-
-/// Phantom types that expose a schema's static input and output types.
-abstract interface class StandardSchemaTypes<Input, Output> {
-  /// A non-runtime input-type marker.
-  Input get input;
-
-  /// A non-runtime output-type marker.
-  Output get output;
 }

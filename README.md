@@ -65,3 +65,29 @@ returns either `StandardSchemaSuccess<Output>` or
 
 Use `HintedStandardSchemaIssue` when consumers need a machine-readable code,
 and `DetailedStandardSchemaIssue` when a validator also exposes typed metadata.
+
+## Static type inference
+
+Dart carries the schema types directly through `StandardSchema<Input, Output>`.
+Generic consumers can infer both types from the schema argument:
+
+```dart
+Future<Output> parse<Input, Output>(
+  StandardSchema<Input, Output> schema,
+  Input input,
+) async {
+  final result = await schema.$standard.validate(input);
+
+  return switch (result) {
+    StandardSchemaSuccess(value: final output) => output,
+    StandardSchemaFailure(issues: final issues) =>
+      throw FormatException(issues.first.message),
+  };
+}
+
+final int value = await parse(IntegerSchema(), 42);
+```
+
+Unlike TypeScript, Dart cannot extract a generic parameter into a type alias from
+a schema type. The generic `Input` and `Output` parameters are therefore the
+Dart equivalent of Standard Schema's `Types`, `InferInput`, and `InferOutput`.
