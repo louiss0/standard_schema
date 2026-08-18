@@ -416,32 +416,50 @@ final class ZodMap<Key, Value> extends ZodSchema<Map<Key, Value>> {
   }
 }
 
-Future<void> displayResult<Output>(
-  ZodSchema<Output> schema,
-  Object? input,
-) async {
-  final result = await schema.$standard.validate(input);
-  switch (result) {
-    case StandardSchemaSuccess(value: final value):
-      print('Valid: $value');
-    case StandardSchemaFailure(issues: final issues):
-      print('Invalid: ${issues.map((issue) => issue.message).join(', ')}');
-  }
-}
-
 Future<void> main() async {
   final username = Z.string().min(3).max(20).regex(RegExp(r'^[a-z]+$'));
-  await displayResult(username, 'alice');
+  final usernameResult = await username.$standard.validate('alice');
+  switch (usernameResult) {
+    case StandardSchemaSuccess(value: final value):
+      print('Valid string: $value');
+    case StandardSchemaFailure(issues: final issues):
+      print('Invalid string: ${issues.first.message}');
+  }
 
   final age = Z.int().min(18).max(120);
-  await displayResult(age, 30);
+  final ageResult = await age.$standard.validate(30);
+  switch (ageResult) {
+    case StandardSchemaSuccess(value: final value):
+      print('Valid int: $value');
+    case StandardSchemaFailure(issues: final issues):
+      print('Invalid int: ${issues.first.message}');
+  }
 
   final rating = Z.double().min(0).max(5).finite();
-  await displayResult(rating, 4.5);
+  final ratingResult = await rating.$standard.validate(4.5);
+  switch (ratingResult) {
+    case StandardSchemaSuccess(value: final value):
+      print('Valid double: $value');
+    case StandardSchemaFailure(issues: final issues):
+      print('Invalid double: ${issues.first.message}');
+  }
 
   final tags = Z.array(Z.string().nonempty()).min(1).max(5).unique();
-  await displayResult(tags, ['dart', 'schema']);
+  final tagsResult = await tags.$standard.validate(['dart', 'schema']);
+  switch (tagsResult) {
+    case StandardSchemaSuccess(value: final value):
+      print('Valid array: $value');
+    case StandardSchemaFailure(issues: final issues):
+      print('Invalid array: ${issues.first.message}');
+  }
 
   final scores = Z.map(Z.string().nonempty(), Z.int().min(0)).nonempty().max(5);
-  await displayResult(scores, {'quality': 10, 'speed': 9});
+  final scoresResult =
+      await scores.$standard.validate({'quality': 10, 'speed': 9});
+  switch (scoresResult) {
+    case StandardSchemaSuccess(value: final value):
+      print('Valid map: $value');
+    case StandardSchemaFailure(issues: final issues):
+      print('Invalid map: ${issues.first.message}');
+  }
 }
