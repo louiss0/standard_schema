@@ -121,6 +121,15 @@ final class StandardSchemaPropertyKey extends StandardSchemaPathElement {
   final String key;
 }
 
+/// A list index in a validation path.
+final class StandardSchemaListIndex extends StandardSchemaPathElement {
+  /// Creates a list-index element for [index].
+  const StandardSchemaListIndex(this.index);
+
+  /// The zero-based position within the list.
+  final int index;
+}
+
 /// An explicit Standard Schema path segment.
 final class StandardSchemaPathSegment extends StandardSchemaPathElement {
   /// Creates an explicit path segment for [key].

@@ -61,6 +61,25 @@ void main() {
     expect(issue.metadata.expected, 'integer');
     expect(issue.path, hasLength(1));
   });
+
+  test('distinguishes numeric property keys from list indices', () {
+    const issue = TestIssue(
+      message: 'Invalid value.',
+      path: [
+        StandardSchemaPropertyKey('0'),
+        StandardSchemaListIndex(0),
+      ],
+      code: 'invalid',
+      metadata: (expected: 'integer'),
+    );
+
+    expect(issue.path, [
+      isA<StandardSchemaPropertyKey>()
+          .having((element) => element.key, 'key', '0'),
+      isA<StandardSchemaListIndex>()
+          .having((element) => element.index, 'index', 0),
+    ]);
+  });
 }
 
 final class TestIssue extends DetailedStandardSchemaIssue<({String expected})> {

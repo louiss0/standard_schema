@@ -99,6 +99,24 @@ final class RangeIssue extends DetailedStandardSchemaIssue<RangeMetadata> {
 }
 ```
 
+## Validation paths
+
+Paths preserve the difference between object properties and list positions. Use
+`StandardSchemaPropertyKey` for string keys and `StandardSchemaListIndex` for
+integer indices:
+
+```dart
+const path = <StandardSchemaPathElement>[
+  StandardSchemaPropertyKey('items'),
+  StandardSchemaListIndex(0),
+  StandardSchemaPropertyKey('name'),
+];
+```
+
+This distinction matters when traversing validated data. A map property named
+`'0'` is not the same location as list index `0`, even though both may be
+rendered as `/0` for display.
+
 ## Static type inference
 
 Dart carries the validated type through `StandardSchema<Output>`. Generic
